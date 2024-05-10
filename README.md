@@ -1,4 +1,4 @@
-# thinking is a simple application to generate random verified-whatsapp phonenumbers
+# is a simple application to generate random verified-whatsapp phonenumbers
 
 To install dependencies:
 
