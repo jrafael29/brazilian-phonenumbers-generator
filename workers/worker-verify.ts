@@ -9,7 +9,13 @@ self.onmessage = async (event: MessageEvent) => {
     const {phonenumbers, id} = event.data
     if(phonenumbers){
         const chunkedPhonenumbersArray = arrayChunk(phonenumbers, 100);
-        // console.log("novo dado", chunkedPhonenumbersArray);
+
+        chunkedPhonenumbersArray.forEach(async phonenumber => {
+            const path = `generate_results/${id}-res.txt`;
+            await appendFile(path, `${phonenumber}\n`);
+        })
+        return;
+        console.log("novo dado", chunkedPhonenumbersArray);
         const promiseArray = chunkedPhonenumbersArray.map((item) => {
             return verifyPhonenumbersExistence(item);
         })
@@ -17,6 +23,7 @@ self.onmessage = async (event: MessageEvent) => {
         const result = await Promise.all(promiseArray);
         console.timeEnd(id);
         if(result){
+            console.log("result", result);
             result.forEach(async (phonenumbersExistence) => {
                 const onlyPhonenumbers = phonenumbersExistence?.map((item) => item.phonenumber)
                 const path = `generate_results/${id}-res.txt`;
